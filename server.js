@@ -1,12 +1,12 @@
+const { read } = require('fs');
 const http = require('http');
+const products = require('./data/products')
 
 // create server variable 
 const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-        // content type
-    res.setHeader('Content', 'text/html');
-    res.write('<h2>I wonder if tomorrow will be full of stoke</h2>');
-    res.end();
+    // switch from html response to sending json information from the products.json
+   res.writeHead(200, { 'Content-Type': 'application/json'})
+   res.end(JSON.stringify(products))
 });
 
 const PORT = process.env.PORT || 5000 ;
