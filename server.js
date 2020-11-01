@@ -1,14 +1,24 @@
-const { read } = require('fs');
 const http = require('http');
-const products = require('./data/products')
+const { getProducts } = require('./Controllers/ProductController')
+
 
 // create server variable 
 const server = http.createServer((req, res) => {
-    // switch from html response to sending json information from the products.json
-   res.writeHead(200, { 'Content-Type': 'application/json'})
-   res.end(JSON.stringify(products))
+    if (req.url === '/api/products' && req.method === 'GET') {
+        // switch from html response to sending json information from the products.json
+        getProducts(req, res);
+    } else {
+        // Incorrect url
+        res.writeHead(404, {
+            'Content-Type': 'application/json'C
+        })
+        res.end(JSON.stringify({
+            message: 'Route Not Found'
+        }))
+    }
+
 });
 
-const PORT = process.env.PORT || 5000 ;
+const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => console.log(`Server running on ${PORT}`));
